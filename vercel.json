@@ -15,10 +15,9 @@
       "dest": "src/server.ts"
     }
   ],
-  "buildCommand": "npm run build",
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
@@ -29,5 +28,6 @@
         }
       ]
     }
-  ]
+  ],
+  "buildCommand": "npm run build"
 }
