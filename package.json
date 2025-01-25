@@ -4,11 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "NODE_ENV=dev npx nodemon",
     "start:prod": "NODE_ENV=prod npx nodemon",
     "build": "rimraf ./build && tsc && prisma generate --schema=./src/prisma/schema.prisma",
-    "start": "npm run build && npx prisma db push --schema=./src/prisma/schema.prisma && npx prisma generate --schema=./src/prisma/schema.prisma && node build/server.js",
+    "build:run": "npm run build && npx prisma db push --schema=./src/prisma/schema.prisma && npx prisma generate --schema=./src/prisma/schema.prisma && node build/server.js",
     "lint": "eslint . --ext .ts",
     "tsc": "tsc — watch",
     "dev": "pm2 start process.json && pm2 logs"
