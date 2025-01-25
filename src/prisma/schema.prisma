@@ -1,0 +1,90 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String   @unique
+  password     String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model RecordFinancialStatemetIncome {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  plStatement   String
+  year2021     String
+  year2022     String
+  year2023     String
+  year2024     String
+  createdAt DateTime @default(now())  
+  createdBy String @default("Test User")
+  // uploaded_by User     @relation(fields: [userId], references: [id])
+  // userId       String   @db.ObjectId 
+}
+
+model RecordFinancialBalanceSheet {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  assets       String
+  year2021     Json  
+  year2022     Json
+  year2023     Json
+  year2024     Json
+  createdAt DateTime @default(now())  
+  createdBy String @default("Test User")
+
+}
+
+model RecordCashFlowStatement {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  cashFlowStatement       String
+  year2021     Json
+  year2022     Json
+  year2023     Json
+  year2024     Json
+  createdAt DateTime @default(now())  
+  createdBy String @default("Test User")
+
+}
+
+model RecordShareholdingPattern {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  shareholdingPattern       String
+  year2021     Json
+  year2022     Json
+  year2023     Json
+  year2024     Json
+  createdAt DateTime @default(now())  
+  createdBy String @default("Test User")
+
+}
+
+model RecordFundamentals {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  shareValue Int?
+  lotSize Int?
+  weekHigh Int?
+  weekLow Int?
+  depository String?
+  panNumber String?
+  isinNumber String?
+  cin  String?
+  rta String?
+  marketCap Int?
+  peRatio Float? 
+  pbRatio Float?
+  debtToEquity String?
+  roe Float?
+  bookValue Float?
+  faceValue Float?
+  valuation  String?
+  totalShares Int?
+  createdAt DateTime @default(now())  
+  createdBy String @default("Test User")
+} 
