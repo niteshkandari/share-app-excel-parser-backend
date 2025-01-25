@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",                          
     "module": "commonjs",                    
-    "lib": ["es6"],                     
+    "lib": ["es2015", "esnext"],                     
     "allowJs": true,
     "outDir": "build",                          
     "rootDir": "src",
