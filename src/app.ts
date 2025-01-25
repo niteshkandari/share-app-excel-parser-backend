@@ -14,8 +14,7 @@ export default async (app:Express) => {
   app.use(express.urlencoded({ extended: false, limit: "1mb" }));
   app.set("view engine", "ejs");
   app.set("views", __dirname + "/views");
-
-
+ 
   app.use("/api/ping", (req, res) => res.status(200).json({
     version: "v1",
     Api_Health:"working"
@@ -23,6 +22,7 @@ export default async (app:Express) => {
   app.use("/api/user", userRoutes);
   app.use("/api/excel", excelRoutes);
   app.use(errorMiddleware);
+  app.use("/", (req, res) => res.status(200).json({message:"Welcome"}));
 
   // app.use((req:Request, res:Response, next:NextFunction) => {
   //   const error:Error | any = new Error("Not found");
