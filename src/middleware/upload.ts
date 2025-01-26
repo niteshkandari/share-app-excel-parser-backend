@@ -35,7 +35,7 @@ import fs from "fs";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // const uploadPath = path.resolve("/tmp");
-    cb(null, "uploads");
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
