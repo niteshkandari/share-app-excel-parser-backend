@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EXCEL_TEMPLATE_TYPE } from "./excel-type-enum";
 
 const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // PAN format
 const isinRegex = /^IN[0-9A-Z]{10}$/; // ISIN format
@@ -74,15 +75,15 @@ const recordFundamentalsSchema = z.object({
 });
 export const validateRecord = (record: any, typeOfExcelSheet: string) => {
   try {
-    if (typeOfExcelSheet === "FINANCIAL_INCOME_STATEMENT") {
+    if (typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.INCOME_STATEMENT) {
       financialIncomeSchema.parse(record);
-    } else if (typeOfExcelSheet === "FINANCIAL_BALANCE_SHEET") {
+    } else if (typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.BALANCE_SHEET) {
       financialBalance.parse(record);
-    } else if (typeOfExcelSheet === "FINANCIAL_CASHFLOW_SHEET") {
+    } else if (typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.CASHFLOW_STATEMENT) {
       financialCashFlowSchema.parse(record);
-    } else if (typeOfExcelSheet === "SHAREHOLDING_PATTERN") {
+    } else if (typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.SHAREHOLDING_PATTERN) {
       shareholdingPattern.parse(record);
-    } else if (typeOfExcelSheet === "FUNDAMENTAL") {
+    } else if (typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.FUNDAMENTAL) {
       recordFundamentalsSchema.parse(record);
     }
     return null; // No errors

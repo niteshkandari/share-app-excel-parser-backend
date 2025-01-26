@@ -2,10 +2,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { APP_SECRET } from "../config";
 import crypto from 'crypto'
+
+
 export const GenerateSalt = async () => {
   return await bcrypt.genSalt();
 };
-
 
 export const convertToPercentage = (value: number | string): string => {
   if (typeof value === 'string') {

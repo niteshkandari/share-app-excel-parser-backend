@@ -1,5 +1,6 @@
 import xlsx from "xlsx";
 import { validateRecord } from "../excelUtilityService/validation";
+import { EXCEL_TEMPLATE_TYPE } from "./excel-type-enum";
 
 const sanitizeKeysInArray = (data) => {
   return data.map((obj) => {
@@ -26,7 +27,7 @@ export const parseExcel = async (filePath: string, typeOfExcelSheet : string) =>
     const errors: string[] = [];
     const validData: any[] = [];
 
-    if(typeOfExcelSheet === "FUNDAMENTAL" && data.length > 1) {
+    if(typeOfExcelSheet === EXCEL_TEMPLATE_TYPE.FUNDAMENTAL && data.length > 1) {
       errors.push(`Error, Cannot upload more than one row.`);
       return { validData: [], errors }; 
     }

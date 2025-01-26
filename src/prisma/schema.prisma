@@ -19,10 +19,10 @@ model User {
 model RecordFinancialStatemetIncome {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   plStatement   String
-  year2021     String
-  year2022     String
-  year2023     String
-  year2024     String
+  year2021     Json
+  year2022     Json
+  year2023     Json
+  year2024     Json
   createdAt DateTime @default(now())  
   createdBy String @default("Test User")
   // uploaded_by User     @relation(fields: [userId], references: [id])
