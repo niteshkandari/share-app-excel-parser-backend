@@ -13,7 +13,7 @@
       "dest": "src/server.ts"
     },
     {
-      "src": "/api/excel/upload(.*)",
+      "src": "/api/excel/upload/(.*)",
       "dest": "uploads"
     }
   ],
