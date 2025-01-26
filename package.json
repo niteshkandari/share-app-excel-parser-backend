@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "NODE_ENV=dev npx nodemon --max-old-space-size=4096",
     "start:prod": "NODE_ENV=prod npx nodemon",
- "build": "npm install && rimraf ./build && tsc && prisma generate --schema=./src/prisma/schema.prisma",
+    "build": "npm install && rimraf ./build && tsc && prisma generate --schema=./src/prisma/schema.prisma && cd ./build && echo 'Build folder created'",
     "build:run": "npm run build && npx prisma db push --schema=./src/prisma/schema.prisma && npx prisma generate --schema=./src/prisma/schema.prisma && node build/server.js",
     "lint": "eslint . --ext .ts",
     "tsc": "tsc — watch",
