@@ -24,8 +24,7 @@ class ExcelController {
       const headers = Object.keys(validData[0]) as string[];
       const data = validData.map((item: any) => Object.values(item)) as string[][];
       await updateGoogleSheet(SHEET_ID, headers, data, range);
-      const test = process.env.GOOGLE_CLIENT_EMAIL === "node-share-app@node-share-app-service.iam.gserviceaccount.com" ? true : false;
-      res.status(200).json({ message: "File processed and uploaded to Google Sheet successfully", data: validData, test });
+      res.status(200).json({ message: "File processed and uploaded to Google Sheet successfully", data: validData });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error", message: JSON.stringify(error) });
