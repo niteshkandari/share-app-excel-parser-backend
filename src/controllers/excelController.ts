@@ -6,31 +6,21 @@ import { excelTemplate } from "../utils/excelUtilityService/excelTemplate";
 import { updateGoogleSheet } from "../utils/excelUtilityService/googleSheetUtility";
 
 class ExcelController {
-  async uploadExcel(req: Request, res: Response, next: NextFunction, type: string, prismaModel: any, range:string) {
+  async uploadExcel(req: Request, res: Response, next: NextFunction, type: string, prismaModel: any, range: string) {
     const file = req.file;
     if (!file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    console.log("--------------------------------")
-    console.log(file, "<------file")
-    console.log("--------------------------------")
     try {
       const { validData, errors } = await parseExcel(file.path, type);
 
       if (errors.length > 0) {
-        console.log("--------------------------------")
-        console.log(errors, "<------errors")
-        console.log("--------------------------------")
         return res.status(400).json({ errors });
       }
-      
-      console.log("--------------------------------")
-      console.log(validData, "<------validData")
-      console.log("--------------------------------")
 
       await prismaModel.createMany({ data: validData });
-      const SHEET_ID = process.env.SHEET_ID!; 
+      const SHEET_ID = process.env.SHEET_ID!;
       const headers = Object.keys(validData[0]) as string[];
       const data = validData.map((item: any) => Object.values(item)) as string[][];
       await updateGoogleSheet(SHEET_ID, headers, data, range);
@@ -41,7 +31,7 @@ class ExcelController {
     }
   }
 
-  async  deleteAllRecords(res: Response, prismaModel: any, recordType: string) {
+  async deleteAllRecords(res: Response, prismaModel: any, recordType: string) {
     try {
       await prismaModel.deleteMany();
       res.status(200).json({ message: `${recordType} deleted successfully` });
@@ -102,19 +92,54 @@ class ExcelController {
   }
 
   uploadFundamentals = (req: Request, res: Response, next: NextFunction) =>
-    this.uploadExcel(req, res, next, EXCEL_TEMPLATE_TYPE.FUNDAMENTAL, prismaClient.recordFundamentals, "fundamental!A1");
+    this.uploadExcel(
+      req,
+      res,
+      next,
+      EXCEL_TEMPLATE_TYPE.FUNDAMENTAL,
+      prismaClient.recordFundamentals,
+      "fundamental!A1"
+    );
 
   uploadFinancialIncomeExcel = (req: Request, res: Response, next: NextFunction) =>
-    this.uploadExcel(req, res, next, EXCEL_TEMPLATE_TYPE.INCOME_STATEMENT, prismaClient.recordFinancialStatemetIncome, "incomeStatement!A1");
+    this.uploadExcel(
+      req,
+      res,
+      next,
+      EXCEL_TEMPLATE_TYPE.INCOME_STATEMENT,
+      prismaClient.recordFinancialStatemetIncome,
+      "incomeStatement!A1"
+    );
 
   uploadFinancialBalanceExcel = (req: Request, res: Response, next: NextFunction) =>
-    this.uploadExcel(req, res, next, EXCEL_TEMPLATE_TYPE.BALANCE_SHEET, prismaClient.recordFinancialBalanceSheet, "balanceSheet!A1");
+    this.uploadExcel(
+      req,
+      res,
+      next,
+      EXCEL_TEMPLATE_TYPE.BALANCE_SHEET,
+      prismaClient.recordFinancialBalanceSheet,
+      "balanceSheet!A1"
+    );
 
   uploadFinancialCashFlowStatementExcel = (req: Request, res: Response, next: NextFunction) =>
-    this.uploadExcel(req, res, next, EXCEL_TEMPLATE_TYPE.CASHFLOW_STATEMENT, prismaClient.recordCashFlowStatement,"cashflowStatement!A1");
+    this.uploadExcel(
+      req,
+      res,
+      next,
+      EXCEL_TEMPLATE_TYPE.CASHFLOW_STATEMENT,
+      prismaClient.recordCashFlowStatement,
+      "cashflowStatement!A1"
+    );
 
   uploadShareholdingPattern = (req: Request, res: Response, next: NextFunction) =>
-    this.uploadExcel(req, res, next, EXCEL_TEMPLATE_TYPE.SHAREHOLDING_PATTERN, prismaClient.recordShareholdingPattern, "shareholdingPattern!A1");
+    this.uploadExcel(
+      req,
+      res,
+      next,
+      EXCEL_TEMPLATE_TYPE.SHAREHOLDING_PATTERN,
+      prismaClient.recordShareholdingPattern,
+      "shareholdingPattern!A1"
+    );
 
   deleteFundamental = (req: Request, res: Response, next: NextFunction) =>
     this.deleteAllRecords(res, prismaClient.recordFundamentals, "Fundamentals");
@@ -191,4 +216,3 @@ class ExcelController {
 }
 
 export default new ExcelController();
-

@@ -3,12 +3,12 @@ import path from "path";
 import fs from "fs";
 
 const storage = multer.diskStorage({
-  // destination: (req, file, cb) => {
-  //   cb(null, "uploads/");
-  // },
-  // filename: (req, file, cb) => {
-  //   cb(null, `${Date.now()}-${file.originalname}`);
-  // },
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
 
 const fileFilter = (req: any, file: any, cb: any) => {
