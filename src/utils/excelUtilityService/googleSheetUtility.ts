@@ -1,21 +1,20 @@
 import { google } from "googleapis";
 import { JWT } from "google-auth-library";
-import * as path from "path";
 
 export async function updateGoogleSheet(SHEET_ID: string, headers: string[], data: string[][], range = "Sheet1!A1") {
   try {
-  
-    console.log(__dirname,  "dirname")
+    console.log(__dirname, "dirname");
     const auth = new JWT({
-      keyFile: path.join(__dirname, '../../../node-share-app-service-d073481ba24b.json'), 
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'], 
+      key: process.env.GOOGLE_PRIVATE_KEY,
+      email: process.env.GOOGLE_CLIENT_EMAIL,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
-    const sheets = google.sheets({ version: "v4", auth });    
+    const sheets = google.sheets({ version: "v4", auth });
     const values = [[...headers], ...data];
     const response: any = await sheets.spreadsheets.values.update({
       spreadsheetId: SHEET_ID,
       range,
-      valueInputOption: "RAW", // "RAW" or "USER_ENTERED"
+      valueInputOption: "RAW",
       requestBody: {
         values: values,
       },
@@ -26,4 +25,3 @@ export async function updateGoogleSheet(SHEET_ID: string, headers: string[], dat
     console.error("Error updating Google Sheet:", error.message);
   }
 }
-
