@@ -11,13 +11,24 @@ class ExcelController {
     if (!file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
+
+    console.log("--------------------------------")
+    console.log(file, "<------file")
+    console.log("--------------------------------")
     try {
       const { validData, errors } = await parseExcel(file.path, type);
 
       if (errors.length > 0) {
+        console.log("--------------------------------")
+        console.log(errors, "<------errors")
+        console.log("--------------------------------")
         return res.status(400).json({ errors });
       }
       
+      console.log("--------------------------------")
+      console.log(validData, "<------validData")
+      console.log("--------------------------------")
+
       await prismaModel.createMany({ data: validData });
       const SHEET_ID = process.env.SHEET_ID!; 
       const headers = Object.keys(validData[0]) as string[];
