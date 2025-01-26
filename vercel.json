@@ -5,7 +5,7 @@
       "src": "src/server.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["src/prisma/schema.prisma"]
+        "includeFiles": ["src/prisma/schema.prisma", "uploads"]
       }
     }
   ],
