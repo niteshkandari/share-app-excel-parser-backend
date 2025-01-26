@@ -1,7 +1,8 @@
 {
   "version": 2,
   "builds": [
-    { "src": "src/server.ts",
+    { 
+      "src": "src/server.ts",
       "use": "@vercel/node",
       "config": {
         "includeFiles": ["src/prisma/schema.prisma"]}
@@ -11,10 +12,6 @@
     {
       "src": "/(.*)",
       "dest": "src/server.ts"
-    },
-    {
-      "src": "/api/excel/upload/(.*)",
-      "dest": "uploads"
     }
   ],
   "buildCommand": "npm run build"
