@@ -2,8 +2,3 @@
 /node_modules
 .DS_Store
 .logs
-.vercel
-
-.json
-.xlsx
-.numbers
