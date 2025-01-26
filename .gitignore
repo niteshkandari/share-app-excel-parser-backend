@@ -4,4 +4,5 @@
 .logs
 .vercel
 .json
-/uploads
+.xlsx
+.numbers
