@@ -3,7 +3,6 @@ import { JWT } from "google-auth-library";
 
 export async function updateGoogleSheet(SHEET_ID: string, headers: string[], data: string[][], range = "Sheet1!A1") {
   try {
-    console.log(__dirname, "dirname");
     const auth = new JWT({
       key: process.env.GOOGLE_PRIVATE_KEY,
       email: process.env.GOOGLE_CLIENT_EMAIL,
