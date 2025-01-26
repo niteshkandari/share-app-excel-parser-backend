@@ -1,6 +1,6 @@
 import { google, sheets_v4 } from "googleapis";
 import { JWT } from "google-auth-library";
-export async function updateGoogleSheet(SHEET_ID: string, headers: string[], data: string[][], range = "Sheet1!A1") {
+export async function updateGoogleSheet(headers: string[], data: string[][], range = "Sheet1!A1") {
   try {
     // const auth = new JWT({
     //   key: 
@@ -12,7 +12,7 @@ export async function updateGoogleSheet(SHEET_ID: string, headers: string[], dat
 
     const decodedServiceAccount = Buffer.from(process.env.ENCODED_SECRET!, 'base64').toString('utf-8');
     const credentials = JSON.parse(decodedServiceAccount);
-    console.log(range, SHEET_ID)
+    console.log(range, process.env.SHEET_ID)
     const auth = new google.auth.GoogleAuth({
       credentials,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
@@ -23,7 +23,7 @@ export async function updateGoogleSheet(SHEET_ID: string, headers: string[], dat
     const sheets = google.sheets({ version: "v4", auth:authClient });
     const values = [[...headers], ...data];
     const response: any = await sheets.spreadsheets.values.update({
-      spreadsheetId: SHEET_ID,
+      spreadsheetId: process.env.SHEET_ID!,
       range,
       valueInputOption: "RAW",
       requestBody: {

@@ -20,10 +20,9 @@ class ExcelController {
       }
 
       await prismaModel.createMany({ data: validData });
-      const SHEET_ID = process.env.SHEET_ID!;
       const headers = Object.keys(validData[0]) as string[];
       const data = validData.map((item: any) => Object.values(item)) as string[][];
-      await updateGoogleSheet(SHEET_ID, headers, data, range);
+      await updateGoogleSheet(headers, data, range);
       res.status(200).json({ message: "File processed and uploaded to Google Sheet successfully", data: validData });
     } catch (error) {
       console.error(error);
