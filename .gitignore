@@ -3,6 +3,7 @@
 .DS_Store
 .logs
 .vercel
+
 .json
 .xlsx
 .numbers
