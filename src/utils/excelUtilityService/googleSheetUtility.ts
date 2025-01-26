@@ -1,7 +1,5 @@
 import { google, sheets_v4 } from "googleapis";
 import { JWT } from "google-auth-library";
-import path from "path";
-
 export async function updateGoogleSheet(SHEET_ID: string, headers: string[], data: string[][], range = "Sheet1!A1") {
   try {
     // const auth = new JWT({
@@ -14,7 +12,7 @@ export async function updateGoogleSheet(SHEET_ID: string, headers: string[], dat
 
     const decodedServiceAccount = Buffer.from(process.env.ENCODED_SECRET!, 'base64').toString('utf-8');
     const credentials = JSON.parse(decodedServiceAccount);
-    console.log(credentials , "check")
+    console.log(range, SHEET_ID)
     const auth = new google.auth.GoogleAuth({
       credentials,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
