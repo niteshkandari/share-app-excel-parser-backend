@@ -4,10 +4,11 @@ import { JWT } from "google-auth-library";
 export async function updateGoogleSheet(SHEET_ID: string, headers: string[], data: string[][], range = "Sheet1!A1") {
   try {
     const auth = new JWT({
-      key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      key: process.env.GOOGLE_PRIVATE_KEY,
       email: process.env.GOOGLE_CLIENT_EMAIL,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
+
     const sheets = google.sheets({ version: "v4", auth });
     const values = [[...headers], ...data];
     const response: any = await sheets.spreadsheets.values.update({
