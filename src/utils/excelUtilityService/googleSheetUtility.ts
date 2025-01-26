@@ -5,7 +5,7 @@ export async function updateGoogleSheet(SHEET_ID: string, headers: string[], dat
   try {
     const auth = new JWT({
       key: 
-        (process.env.GOOGLE_PRIVATE_KEY as string).toString().replace(/\n/g, '\n')
+        (process.env.GOOGLE_PRIVATE_KEY as string).split(String.raw`\n`).join('\n')
       ,
       email: process.env.GOOGLE_CLIENT_EMAIL,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
