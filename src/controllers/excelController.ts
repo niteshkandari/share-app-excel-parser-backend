@@ -11,7 +11,6 @@ class ExcelController {
     if (!file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
-
     try {
       const { validData, errors } = await parseExcel(file.path, type);
 
@@ -22,18 +21,19 @@ class ExcelController {
       await prismaModel.createMany({ data: validData });
       const headers = Object.keys(validData[0]) as string[];
       const data = validData.map((item: any) => Object.values(item)) as string[][];
-      await updateGoogleSheet(headers, data, range);
-      res.status(200).json({ message: "File processed and uploaded to Google Sheet successfully", data: validData });
+      const sheetResponse = await updateGoogleSheet(headers, data)(range)(false);
+      res.status(200).json({ message: "File processed and uploaded to Google Sheet successfully", data: validData, sheet:sheetResponse.message });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error", message: JSON.stringify(error) });
     }
   }
 
-  async deleteAllRecords(res: Response, prismaModel: any, recordType: string) {
+  async deleteAllRecords(res: Response, prismaModel: any, recordType: string, range: string) {
     try {
       await prismaModel.deleteMany();
-      res.status(200).json({ message: `${recordType} deleted successfully` });
+      const response = await updateGoogleSheet()(range)(true);
+      res.status(200).json({ message: `${recordType} deleted successfully`, sheet:{...response} });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error", message: JSON.stringify(error) });
@@ -53,9 +53,6 @@ class ExcelController {
   async downloadSampleTemplate(req: Request, res: Response, next: NextFunction) {
     try {
       const { excel_template_type } = req.params;
-
-      console.log(excel_template_type);
-
       if (!excel_template_type) {
         return res.status(400).json({
           message: `Please provide a valid template type. Allowed values are: ${Object.values(EXCEL_TEMPLATE_TYPE).join(
@@ -141,19 +138,29 @@ class ExcelController {
     );
 
   deleteFundamental = (req: Request, res: Response, next: NextFunction) =>
-    this.deleteAllRecords(res, prismaClient.recordFundamentals, "Fundamentals");
+    this.deleteAllRecords(res, prismaClient.recordFundamentals, "Fundamentals", "fundamental");
 
   deleteAllFinancialIncomeStatement = (req: Request, res: Response, next: NextFunction) =>
-    this.deleteAllRecords(res, prismaClient.recordFinancialStatemetIncome, "Financial Income Statements");
+    this.deleteAllRecords(
+      res,
+      prismaClient.recordFinancialStatemetIncome,
+      "Financial Income Statements",
+      "incomeStatement"
+    );
 
   deleteAllFinancialBalanceSheet = (req: Request, res: Response, next: NextFunction) =>
-    this.deleteAllRecords(res, prismaClient.recordFinancialBalanceSheet, "Financial Balance Sheets");
+    this.deleteAllRecords(res, prismaClient.recordFinancialBalanceSheet, "Financial Balance Sheets", "balanceSheet");
 
   deleteAllFinancialCashflowStatement = (req: Request, res: Response, next: NextFunction) =>
-    this.deleteAllRecords(res, prismaClient.recordCashFlowStatement, "Cash Flow Statements");
+    this.deleteAllRecords(res, prismaClient.recordCashFlowStatement, "Cash Flow Statements", "cashflowStatement");
 
   deleteAllShareholdingPattern = (req: Request, res: Response, next: NextFunction) =>
-    this.deleteAllRecords(res, prismaClient.recordShareholdingPattern, "Shareholding Patterns");
+    this.deleteAllRecords(
+      res,
+      prismaClient.recordShareholdingPattern,
+      "Shareholding Patterns",
+      "shareholdingPattern"
+    );
 
   async getFundamental(req: Request | any, res: Response, next: NextFunction) {
     try {
