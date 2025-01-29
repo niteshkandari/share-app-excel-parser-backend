@@ -6,6 +6,9 @@ import { upload } from "../middleware/upload";
 
 const excelTemplateRouter:Router = Router();
 
+//Route for listening to sheet event
+excelTemplateRouter.post("/listen", ExcelController.listenToGoogleSheetEvent);
+
 //Routes for uploading excel
 
 excelTemplateRouter.post("/upload/fundamentals", upload.single("record-fundamentals"), ExcelController.uploadFundamentals);

@@ -6,6 +6,20 @@ import { excelTemplate } from "../utils/excelUtilityService/excelTemplate";
 import { updateGoogleSheet } from "../utils/excelUtilityService/googleSheetUtility";
 
 class ExcelController {
+
+
+  async listenToGoogleSheetEvent(req: Request, res: Response, next: NextFunction) {
+   try{
+    const { sheetName, row, data } = req.body;
+    if (!sheetName || !row || !data) {
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+    console.log(sheetName, row, data,  "<<<<<------------------<<><><><><><><><>>-------------->>>>");
+    return res.status(200).json({ message:"test"});
+   }catch(err){
+     res.status(500).json({ err:JSON.stringify(err) });
+   }
+  }
   async uploadExcel(req: Request, res: Response, next: NextFunction, type: string, prismaModel: any, range: string) {
     const file = req.file;
     if (!file) {
